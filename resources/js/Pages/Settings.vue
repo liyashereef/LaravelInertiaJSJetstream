@@ -1,6 +1,6 @@
 <template>
 <Layout>
-<h1 class="text-3xl">Hello User</h1>
+<h1 class="text-3xl ">Settings</h1>
 </Layout>
 </template>
 <script>
@@ -12,4 +12,5 @@ export default {
     },
     components:{Layout}
 }
+
 </script>

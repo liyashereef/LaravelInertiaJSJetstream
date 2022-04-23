@@ -15,15 +15,38 @@ use Inertia\Inertia;
 |
 */
 
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+    return inertia::render('Welcome',[
+        "appname"=>"Data Collection App",
+        "frameworks"=>[
+            "Java","Php"
+        ]
     ]);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::inertia('homepage', function () {
+    return inertia::render('homepage',[
+        "appname"=>"Data Collection App",
+        "frameworks"=>[
+            "Java","Php"
+        ]
+    ]);
+});
+Route::get('users', function () {
+    $cTime = now()->toDateTimeString();
+    return inertia::render('Users',["cTime"=>$cTime]);
+});
+Route::get('settings', function () {
+    return inertia::render('Settings');
+});
+Route::post('logout', function () {
+   // dump(request('username'));
+});
