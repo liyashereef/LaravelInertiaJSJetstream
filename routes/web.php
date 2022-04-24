@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,8 +42,14 @@ Route::inertia('homepage', function () {
 });
 Route::get('users', function () {
     $cTime = now()->toDateTimeString();
-    return inertia::render('Users',["cTime"=>$cTime]);
-});
+    $query = User::query();
+    if(null!=request('search')){
+        $query = $query->where('name','Like','%'.request('search').'%');
+    }
+    $users = $query->paginate(10);
+    
+    return inertia::render('Users/Index',["users"=>$users]);
+})->name('users');
 Route::get('settings', function () {
     return inertia::render('Settings');
 });
