@@ -50,7 +50,7 @@
 </div>
 <div class="mt-6">
     Pages : 
-    <Component :is="link.url?'Link':'span'" v-for="link in users.links"   :href="link.url" :key="link.label" v-html="link.label" class="px-1"  />
+    <Component :is="link.url?'Link':'span'" v-for="link in users.links" :data={search:params.search}   :href="link.url" :key="link.label" v-html="link.label" class="px-1"  />
 </div>
 </Layout>
 </template>

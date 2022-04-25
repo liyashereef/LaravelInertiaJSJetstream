@@ -50,6 +50,18 @@ Route::get('users', function () {
     
     return inertia::render('Users/Index',["users"=>$users]);
 })->name('users');
+
+Route::get('usercreate', function () {
+    
+    
+    return inertia::render('Users/Create');
+})->name('usercreate');
+Route::post('usercreate', function () {
+    
+    
+    return inertia::render('Users/Create');
+})->name('usercreate');
+
 Route::get('settings', function () {
     return inertia::render('Settings');
 });
