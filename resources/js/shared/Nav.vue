@@ -7,10 +7,17 @@
             </li>
             <li>
                 <NavLink :active="$page.component==='Users'"  linkRef="users" >Users</NavLink>
-            </li>            
+            </li> 
+            <li>
+                <NavLink :active="$page.component==='Products'"  linkRef="products" >Products</NavLink>
+            </li>                 
             <li>
                 <NavLink :active="$page.component==='Settings'"  linkRef="settings" >Settings</NavLink>
 
+            </li>
+            <li><Link method="post" as="button"  href="logout" >Logout</Link>
+
+                
             </li>
             
         </ul>

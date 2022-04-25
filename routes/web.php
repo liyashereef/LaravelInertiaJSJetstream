@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Models\Products;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,48 +24,73 @@ use App\Models\User;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
-Route::get('/', function () {
-    return inertia::render('Welcome',[
-        "appname"=>"Data Collection App",
-        "frameworks"=>[
-            "Java","Php"
-        ]
-    ]);
+
+Route::middleware('auth')->group(function(){
+    Route::get('/dashboard', function () {
+        return inertia::render('Welcome',[
+            "appname"=>"Data Collection App",
+            "frameworks"=>[
+                "Java","Php"
+            ]
+        ]);
+    });
+    
+    
+    Route::get('/', function () {
+        return inertia::render('Welcome',[
+            "appname"=>"Data Collection App",
+            "frameworks"=>[
+                "Java","Php"
+            ]
+        ]);
+    });
+    
+
+
+    Route::get('products', function () {
+        $query = Products::query();
+        if(null!=request('search')){
+            $query = $query->where('name','Like','%'.request('search').'%');
+        }
+        $products = $query->paginate(10);
+
+        return inertia::render('Products',[
+            "appname"=>"Data Collection App",
+            "frameworks"=>[
+                "Java","Php"
+            ],
+            "products"=>$products
+        ]);
+    });
+
+    Route::get('users', function () {
+        $cTime = now()->toDateTimeString();
+        $query = User::query();
+        if(null!=request('search')){
+            $query = $query->where('name','Like','%'.request('search').'%');
+        }
+        $users = $query->paginate(10);
+        
+        return inertia::render('Users/Index',["users"=>$users]);
+    })->name('users');
+    
+    Route::get('usercreate', function () {
+        
+        
+        return inertia::render('Users/Create');
+    })->name('usercreate');
+    Route::post('usercreate', function () {
+        
+        
+        return inertia::render('Users/Create');
+    })->name('usercreate');
+    
+    Route::get('settings', function () {
+        return inertia::render('Settings');
+    });
+    Route::post('logout', function () {
+       // dump(request('username'));
+    });
 });
 
-Route::inertia('homepage', function () {
-    return inertia::render('homepage',[
-        "appname"=>"Data Collection App",
-        "frameworks"=>[
-            "Java","Php"
-        ]
-    ]);
-});
-Route::get('users', function () {
-    $cTime = now()->toDateTimeString();
-    $query = User::query();
-    if(null!=request('search')){
-        $query = $query->where('name','Like','%'.request('search').'%');
-    }
-    $users = $query->paginate(10);
-    
-    return inertia::render('Users/Index',["users"=>$users]);
-})->name('users');
 
-Route::get('usercreate', function () {
-    
-    
-    return inertia::render('Users/Create');
-})->name('usercreate');
-Route::post('usercreate', function () {
-    
-    
-    return inertia::render('Users/Create');
-})->name('usercreate');
-
-Route::get('settings', function () {
-    return inertia::render('Settings');
-});
-Route::post('logout', function () {
-   // dump(request('username'));
-});
